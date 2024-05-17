@@ -1,0 +1,265 @@
+{
+	"info": {
+		"_postman_id": "365b8011-fb9b-48f9-83d9-67c6a896a841",
+		"name": "Drimzwallet BS V1",
+		"description": "# 🚀 Get started here\n\nThis template guides you through CRUD operations (GET, POST, PUT, DELETE), variables, and tests.\n\n## 🔖 **How to use this template**\n\n#### **Step 1: Send requests**\n\nRESTful APIs allow you to perform CRUD operations using the POST, GET, PUT, and DELETE HTTP methods.\n\nThis collection contains each of these [request](https://learning.postman.com/docs/sending-requests/requests/) types. Open each request and click \"Send\" to see what happens.\n\n#### **Step 2: View responses**\n\nObserve the response tab for status code (200 OK), response time, and size.\n\n#### **Step 3: Send new Body data**\n\nUpdate or add new data in \"Body\" in the POST request. Typically, Body data is also used in PUT request.\n\n```\n{\n    \"name\": \"Add your name in the body\"\n}\n\n ```\n\n#### **Step 4: Update the variable**\n\nVariables enable you to store and reuse values in Postman. We have created a [variable](https://learning.postman.com/docs/sending-requests/variables/) called `base_url` with the sample request [https://postman-api-learner.glitch.me](https://postman-api-learner.glitch.me). Replace it with your API endpoint to customize this collection.\n\n#### **Step 5: Add tests in the \"Tests\" tab**\n\nTests help you confirm that your API is working as expected. You can write test scripts in JavaScript and view the output in the \"Test Results\" tab.\n\n<img src=\"https://content.pstmn.io/b5f280a7-4b09-48ec-857f-0a7ed99d7ef8/U2NyZWVuc2hvdCAyMDIzLTAzLTI3IGF0IDkuNDcuMjggUE0ucG5n\">\n\n## 💪 Pro tips\n\n- Use folders to group related requests and organize the collection.\n- Add more [scripts](https://learning.postman.com/docs/writing-scripts/intro-to-scripts/) in \"Tests\" to verify if the API works as expected and execute workflows.\n    \n\n## 💡Related templates\n\n[API testing basics](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9a37a28-055b-49cd-8c7e-97494a21eb54&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  \n[API documentation](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9c28f47-1253-44af-a2f3-20dce4da1f18&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  \n[Authorization methods](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=31a9a6ed-4cdf-4ced-984c-d12c9aec1c27&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "14355392"
+	},
+	"item": [
+		{
+			"name": "Validations",
+			"item": [
+				{
+					"name": "OTP",
+					"item": [
+						{
+							"name": "Generate OTP",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/iam/identities/otp/generate?recipient={{recipient}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"iam",
+										"identities",
+										"otp",
+										"generate"
+									],
+									"query": [
+										{
+											"key": "recipient",
+											"value": "{{recipient}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get OTP By Recipient",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{base_url}}/iam/identities/otp/{{recipient}}"
+							},
+							"response": []
+						},
+						{
+							"name": "Validate OTP",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"recipient\": \"yveyeh@gmail.com\",\n    \"otp\": \"866044\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/iam/identities/otp/validate"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete OTP By Recipient",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": "{{base_url}}/iam/identities/otp/{{recipient}}"
+							},
+							"response": []
+						},
+						{
+							"name": "Check OTP Expiry By Recipient",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/iam/identities/otp/check?recipient={{recipient}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"iam",
+										"identities",
+										"otp",
+										"check"
+									],
+									"query": [
+										{
+											"key": "recipient",
+											"value": "{{recipient}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "DocFileVerification",
+					"item": [
+						{
+							"name": "Get All DocFileVerifications",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{base_url}}/iam/identities/validations/{{doc_file_id}}/verifications"
+							},
+							"response": []
+						},
+						{
+							"name": "Get A DocFileVerification By ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{base_url}}/iam/identities/validations/{{doc_file_verification_id}}"
+							},
+							"response": []
+						},
+						{
+							"name": "Create A DocFileVerification",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"verifiedAt\": null,\n  \"verifiedBy\": null,\n  \"verificationStatus\": \"MISSING\",\n  \"callMade\": false,\n  \"rejectReasonId\": null,\n  \"docFileId\": \"{{doc_file_id}}\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/iam/identities/validations/{{doc_file_id}}/verifications"
+							},
+							"response": []
+						},
+						{
+							"name": "Update A DocFileVerification",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"verifiedAt\": \"2024-05-15T10:00:00\",\n    \"verifiedBy\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"verificationStatus\": \"PENDING\",\n    \"callMade\": true,\n    \"rejectReasonId\": null,\n    \"docFileId\": \"2f55a2b5-42d4-4f9b-8b36-9a1aa5b13558\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/iam/identities/validations/{{doc_file_verification_id}}"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete A DocFileVerification",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": "{{base_url}}/iam/identities/validations/{{doc_file_verification_id}}"
+							},
+							"response": []
+						}
+					],
+					"description": "All DocFileVerification endpoints\n\n- GET all doc file verifications for a given doc file.\n    \n- GET a doc file verification by its ID.\n    \n- CREATE a doc file verification for a doc file.\n    \n- UPDATE a doc file verification.\n    \n- DELETE a doc file verification."
+				},
+				{
+					"name": "DocFile",
+					"item": [
+						{
+							"name": "Get All DocFiles",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						},
+						{
+							"name": "Get A DocFile By ID",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						},
+						{
+							"name": "Create A DocFile",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": "{{base_url}}/iam/identities/validations/docfiles"
+							},
+							"response": []
+						},
+						{
+							"name": "Update A DocFile",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": "{{base_url}}/iam/identities/validations/docfiles/{{doc_file_id}}"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete A DocFile",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": "{{base_url}}/iam/identities/validations/docfiles/{{doc_file_id}}"
+							},
+							"response": []
+						}
+					],
+					"description": "All DocFile endpoints\n\n- GET all doc files.\n    \n- GET a doc file by its ID.\n    \n- CREATE a doc file.\n    \n- UPDATE a doc file.\n    \n- DELETE a doc file."
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "localhost:8080"
+		},
+		{
+			"key": "doc_file_id",
+			"value": "456e7890-e12a-34b5-c678-901234567892"
+		},
+		{
+			"key": "doc_file_verification_id",
+			"value": "456e7890-e12a-34b5-c678-901234567890"
+		},
+		{
+			"key": "recipient",
+			"value": "yveyeh@gmail.com"
+		}
+	]
+}
