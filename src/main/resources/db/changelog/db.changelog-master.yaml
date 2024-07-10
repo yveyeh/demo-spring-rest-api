@@ -1,0 +1,23 @@
+databaseChangeLog:
+    - include:
+        file: classpath:/db/changelog/migrations/002-initial-schema.xml
+    - include:
+        file: classpath:/db/changelog/migrations/30-04-2024-create-role_privilege-table.xml
+    - include:
+        file: classpath:/db/changelog/migrations/09-06-2024-migrations.xml
+    - include:
+        file: classpath:/db/changelog/migrations/18-06-2024-create-sessions-table.sql
+    - include:
+        file: classpath:/db/changelog/migrations/29-06-2024-create-otp-action-table.sql
+    - include:
+        file: classpath:/db/changelog/migrations/30-06-2024-rename-otp-action-table.sql
+    - include:
+        file: classpath:/db/changelog/migrations/30-06-2024-create-otp-actions-table.sql
+    - include:
+        file: classpath:/db/changelog/migrations/30-06-2024-alter-otp-actions-table.sql
+    - include:
+        file: classpath:/db/changelog/migrations/30-06-2024-0-alter-otp-actions-table.sql
+    - include:
+        file: classpath:/db/changelog/migrations/04-07-2024-alter-otp-actions-columns.sql
+    - include:
+        file: classpath:/db/changelog/migrations/09-07-2024-create-otp-codes-table.sql

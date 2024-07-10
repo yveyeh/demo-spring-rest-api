@@ -1,0 +1,76 @@
+openapi: 3.1.0
+
+info:
+  description: root schemas of authentications sub module
+  title: Authentications schemas
+  version: 1.0.0
+
+
+components:
+  schemas:
+    EntityDTO:
+      type: object
+      properties:
+        createdAt:
+          type: string
+          format: date-time
+          nullable: true
+        updatedAt:
+          type: string
+          format: date-time
+          nullable: true
+
+    ErrorDTO:
+      properties:
+        code:
+          type: string
+          nullable: false
+          description: Internal code of error
+        message:
+          type: string
+          nullable: false
+          description: Explicit overview error message
+        messages:
+          type: array
+          items:
+            type: string
+            nullable: false
+            description: List of detailed messages concerning error
+
+    MetaDataDTO:
+      properties:
+        page:
+          type: integer
+          description: Numeric position of the current page
+        count:
+          type: integer
+          description: Number of items on the current page
+        size:
+          type: integer
+          description: Maximum number of items configured to have on each page
+        total_count:
+          type: integer
+          description: Total number of items concerning by the initial request
+        total_pages:
+          type: integer
+          description: Total number of pages concerning by the initial request
+
+    ResponseSuccessDTO:
+      type: object
+      properties:
+        metadata:
+          nullable: true
+          $ref: "#/components/schemas/MetaDataDTO"
+        elapsed_time:
+          type: number
+          description: Time elapsed between the start and the end of request
+
+    ResponseErrorDTO:
+      type: object
+      properties:
+        error:
+          nullable: true
+          $ref: "#/components/schemas/ErrorDTO"
+        elapsed_time:
+          type: number
+          description: Time elapsed between the start and the end of request

@@ -1,0 +1,121 @@
+openapi: 3.0.3
+
+info:
+  title: User OTP Validation API
+  version: 1.0.0
+
+servers:
+  - url: 'http//localhost:{port}'
+    variables:
+      port:
+        default: '8080'
+    description: Dev with data on localhost
+  - url: '{protocol}//{host}:{port}'
+    variables:
+      protocol:
+        enum:
+          - http
+          - https
+        default: https
+      host:
+        default: "microservices.deepdrimz.com"
+      port:
+        default: '8080'
+    description: Dev with data on remote staging
+
+tags:
+  - name: Validate OTP
+    description: Endpoint feature to validate OTP.
+
+paths:
+  /iam/authentications/otp:
+    post:
+      summary: Validate Received OTP
+      description: Allows a user to validate the received OTP for identity verification or performing an action.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ValidateOtpRequestDTO'
+      responses:
+        '200':
+          description: Successful OTP validation.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Informational message confirming successful verification.
+                  sessionToken:
+                    type: string
+                    description: Session token or other relevant data (optional).
+        '400':
+          description: Bad Request.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message describing the issue (e.g., missing field, invalid format).
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message indicating failed validation (e.g., invalid OTP, expired OTP).
+        '404':
+          description: Not Found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: User not found or action identifier not recognized (optional).
+        '429':
+          description: Too Many Attempts.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: User exceeded allowed attempts for OTP validation.
+        '500':
+          description: Internal Server Error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Generic error message indicating server-side issue.
+
+
+components:
+  schemas:
+    ValidateOtpRequestDTO:
+      type: object
+      required: true
+      $ref: './schemas.yaml#/components/schemas/ValidateOtpRequestDTO'
+    ValidateOtpResponseDTO:
+      type: object
+      allOf:
+        - $ref: "../schemas.yaml#/components/schemas/ResponseSuccessDTO"
+      properties:
+        data:
+          allOf:
+            - $ref: './schemas.yaml#/components/schemas/OtpIdDTO'
+            - $ref: './schemas.yaml#/components/schemas/OtpDTO'
