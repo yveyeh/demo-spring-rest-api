@@ -1,0 +1,99 @@
+openapi: 3.0.3
+
+info:
+  title: User OTP Invalidate API
+  version: 1.0.0
+
+servers:
+  - url: 'http//localhost:{port}'
+    variables:
+      port:
+        default: '8080'
+    description: Dev with data on localhost
+  - url: '{protocol}//{host}:{port}'
+    variables:
+      protocol:
+        enum:
+          - http
+          - https
+        default: https
+      host:
+        default: "microservices.deepdrimz.com"
+      port:
+        default: '8080'
+    description: Dev with data on remote staging
+
+tags:
+  - name: Invalidate OTP
+    description: Endpoint feature to invalidate OTP.
+
+paths:
+  /iam/authentications/otp/{recipient}/invalidate:
+    post:
+      summary: Invalidate OTP
+      description: Allows a user to invalidate an OTP before its expiration.
+      parameters:
+        - name: recipient
+          in: path
+          required: true
+          description: Identifier of the recipient (e.g., email, phone number).
+        - name: type
+          in: query
+          required: true
+          description: Type of OTP being invalidated (e.g., SIGN_IN, RESET_PASSWORD).
+      responses:
+        '200':
+          description: OTP invalidated successfully.
+          content:
+            application/json:
+              schema: {}  # Empty schema for 200 response
+        '400':
+          description: Bad Request.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message describing the issue (e.g., missing field, invalid type).
+        '403':
+          description: Forbidden.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: User not authorized to invalidate for this recipient.
+        '404':
+          description: Not Found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Recipient not found or invalid OTP type.
+        '409':
+          description: Conflict.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: OTP already expired or used.
+        '500':
+          description: Internal Server Error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Generic error message indicating server-side issue.

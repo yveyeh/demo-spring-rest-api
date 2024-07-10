@@ -1,0 +1,19 @@
+---
+servers:
+- url: "http://localhost:8080"
+openapi: "3.0.3"
+paths:
+  /iam/authentications/otp/{recipient}/invalidate:
+    $ref: "./otp/InvalidateOTP.yaml#/paths/~1iam~1authentications~1otp~1{recipient}~1invalidate"
+  /iam/authentications/otp:
+    $ref: "./otp/ValidateOTP.yaml#/paths/~1iam~1authentications~1otp"
+  /internal/cleanup/otp:
+    $ref: "./otp/AutoDeleteOTP.yaml#/paths/~1internal~1cleanup~1otp"
+  /iam/authentications/otp/{recipient}:
+    $ref: "./otp/GenerateOTP.yaml#/paths/~1iam~1authentications~1otp~1{recipient}"
+  /iam/authentications/otp/{recipient}/resend:
+    $ref: "./otp/ResendOTP.yaml#/paths/~1iam~1authentications~1otp~1{recipient}~1resend"
+info:
+  title: "merged spec"
+  description: "merged spec"
+  version: "1.0.0"

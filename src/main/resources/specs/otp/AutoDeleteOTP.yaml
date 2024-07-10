@@ -1,0 +1,17 @@
+openapi: 3.0.3
+
+info:
+  title: User OTP Management API
+  version: 1.0.0
+
+x-internal-cleanup:  # Custom extension for comments
+  description: A scheduled background job automatically cleans up expired or invalid OTPs at a specific time defined in a configuration file. Please refer to separate system admin documentation for details.
+
+paths:
+  /internal/cleanup/otp:
+    get:
+      summary: (Internal) Scheduled OTP Cleanup
+      description: This endpoint serves as a documentation reference for the scheduled job that automatically removes expired or invalid OTPs. 
+      responses:
+        '200':
+          description: (Informational) Confirms the presence of scheduled OTP cleanup functionality.

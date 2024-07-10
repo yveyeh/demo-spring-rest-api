@@ -6,7 +6,7 @@ Getting started and testing your application endpoints is quite straightforward:
 
 - Clone the repository.
 - Open in your editor of choice.
-- Setup your postgresql databse by creating a new user `demodb_user` and running the `demodb.sql` script at the root of the project directory.
+- Setup your postgresql databse by creating a new user `demodb_user` and running the `demodb.sql` script in the resources folder.
 - In the `application.properties` file, change `<PASSWORD>` to your `demodb_user`'s password.
 - Make sure that you have no errors, and then run the application while ensuring it's listening on `localhost:8080`.
 - Start postman and import the collection in the `collection` folder found at the root of the project directory.

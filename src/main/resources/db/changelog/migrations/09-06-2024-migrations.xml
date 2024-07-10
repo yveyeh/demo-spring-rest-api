@@ -1,0 +1,164 @@
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <!-- <changeSet author="Didier Yufenyuy Veyeh" id="grant_permissions">
+        <sql>
+            GRANT CREATE, ALTER, DROP ON SCHEMA public TO yveyeh;
+        </sql>
+    </changeSet> -->
+
+    <changeSet author="Didier Yufenyuy Veyeh" id="create_doc_files">
+        <sql>
+            DROP TABLE IF EXISTS doc_files;
+        </sql>
+        <createTable tableName="doc_files">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="slug" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="title" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="description" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="verified" type="boolean" defaultValue="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="verified_at" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="verification_status" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="user_id" type="uuid">
+                <constraints nullable="true"/>
+            </column>
+            <column name="doc_file_type_id" type="uuid">
+                <constraints nullable="true"/>
+            </column>
+            <column name="id_doc_id" type="uuid">
+                <constraints nullable="true"/>
+            </column>
+            <!-- Columns from File -->
+            <column name="file_name" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="file_path" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="file_size" type="float">
+                <constraints nullable="true"/>
+            </column>
+            <!-- Columns from BaseEntity -->
+            <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        
+        <addDefaultValue tableName="doc_files" columnName="created_at" defaultValueComputed="CURRENT_TIMESTAMP"/>
+        <addDefaultValue tableName="doc_files" columnName="updated_at" defaultValueComputed="CURRENT_TIMESTAMP"/>
+
+        <!-- Add foreign key constraints since user_id, doc_file_type_id, and id_doc_id reference other tables -->
+        <!-- 
+        <addForeignKeyConstraint baseTableName="doc_files"
+                                 baseColumnNames="user_id"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"
+                                 constraintName="fk_doc_files_user"/>
+        
+        <addForeignKeyConstraint baseTableName="doc_files"
+                                 baseColumnNames="doc_file_type_id"
+                                 referencedTableName="doc_file_types"
+                                 referencedColumnNames="id"
+                                 constraintName="fk_doc_files_doc_file_type"/>
+        
+        <addForeignKeyConstraint baseTableName="doc_files"
+                                 baseColumnNames="id_doc_id"
+                                 referencedTableName="id_docs"
+                                 referencedColumnNames="id"
+                                 constraintName="fk_doc_files_id_doc"/>
+        -->
+    </changeSet>
+
+    <changeSet author="Didier Yufenyuy Veyeh" id="create_doc_file_verifications">
+        <sql>
+            DROP TABLE IF EXISTS doc_file_verifications;
+        </sql>
+        <createTable tableName="doc_file_verifications">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="slug" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="title" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="description" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="verified_at" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="verified_by" type="uuid">
+                <constraints nullable="true"/>
+            </column>
+            <column name="verification_status" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="call_made" type="boolean" defaultValue="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="reject_reason_id" type="uuid">
+                <constraints nullable="true"/>
+            </column>
+            <column name="doc_file_id" type="uuid">
+                <constraints nullable="true"/>
+            </column>
+            <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        
+        <addDefaultValue tableName="doc_file_verifications" columnName="created_at" defaultValueComputed="CURRENT_TIMESTAMP"/>
+        <addDefaultValue tableName="doc_file_verifications" columnName="updated_at" defaultValueComputed="CURRENT_TIMESTAMP"/>
+
+        <!-- Optionally, add foreign key constraints if reject_reason_id, doc_file_id, and verified_by reference other tables -->
+        <!-- 
+        <addForeignKeyConstraint baseTableName="doc_file_verifications"
+                                 baseColumnNames="reject_reason_id"
+                                 referencedTableName="reject_reasons"
+                                 referencedColumnNames="id"
+                                 constraintName="fk_doc_file_verifications_reject_reason"/> -->
+        
+        <addForeignKeyConstraint baseTableName="doc_file_verifications"
+                                 baseColumnNames="doc_file_id"
+                                 referencedTableName="doc_files"
+                                 referencedColumnNames="id"
+                                 constraintName="fk_doc_file_verifications_doc_file"/>
+        
+        <!-- <addForeignKeyConstraint baseTableName="doc_file_verifications"
+                                 baseColumnNames="verified_by"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"
+                                 constraintName="fk_doc_file_verifications_verified_by"/>
+        -->
+    </changeSet>
+
+</databaseChangeLog>

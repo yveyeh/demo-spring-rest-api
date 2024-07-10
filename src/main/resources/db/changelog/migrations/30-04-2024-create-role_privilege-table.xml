@@ -1,0 +1,28 @@
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet author="Elvis" id="4">
+        <createTable tableName="role_privilege">
+            <column name="id" type="uuid" autoIncrement="1">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="entity_id" type="uuid">
+                <constraints nullable="true"/>
+            </column>
+            <column name="description" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="option" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="role_id" type="uuid">
+                <constraints nullable="true"/>
+            </column>
+            <column name="privilege_id" type="uuid">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

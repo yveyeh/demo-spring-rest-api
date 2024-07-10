@@ -1,0 +1,117 @@
+openapi: 3.1.0
+
+info:
+  description: All OTP Schemas are found here
+  title: OTP DTO Schemas
+  version: 1.0.0
+
+components:
+  schemas:
+    OtpIdDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: false
+          readOnly: true
+          description: The unique identifier of the OTP.
+
+    OtpDTO:
+      type: object
+      properties:
+        value:
+          type: string
+          description: The actual OTP code.
+        expiresAt:
+          type: string
+          format: date-time
+          description: Date and time when the OTP expires.
+        notificationChannels:
+          type: array
+          items:
+            type: string
+            enum:
+              - SMS
+              - EMAIL,
+              - CALL,
+              - PUSH
+          description: List of notification channels used (SMS, email, etc.).
+        isValid:
+          type: boolean
+          description: Flag indicating if the OTP is still valid.
+        attempts:
+          type: integer
+          description: Number of times the user has attempted to use the OTP.
+        action:
+          type: string
+          enum:
+            - SIGN_IN
+            - SIGN_UP
+            - RESET_PASSWORD
+            - OPEN_SESSION
+            - UNLOCK_SESSION
+            - ADD_PAYMENT_METHOD
+            - HIGH_RISK_TRANSACTION
+          description: Action for which OTP is generated.
+        type:
+          type: string
+          enum:
+            - SHORT_CODE
+            - TOKEN
+          description: Type of OTP generated (e.g., SHORT_CODE, TOKEN).
+        user_id:
+          type: string
+          format: uuid
+          description: User identifier associated with the OTP.
+
+    GenerateOtpRequestDTO:
+      type: object
+      properties:
+        action:
+          type: string
+          enum:
+            - SIGN_IN
+            - SIGN_UP
+            - RESET_PASSWORD
+            - OPEN_SESSION
+            - UNLOCK_SESSION
+            - ADD_PAYMENT_METHOD
+            - HIGH_RISK_TRANSACTION
+          description: Action for which OTP is generated.
+        notificationChannel:
+          type: string
+          enum:
+            - SMS
+            - EMAIL
+            - CALL
+            - PUSH
+          description: User's preferred notification channel.
+
+    ValidateOtpRequestDTO:
+      type: object
+      properties:
+        recipient:
+          type: string
+          description: User identifier (recipient).
+        otp:
+          type: string
+          description: Received OTP code.
+        action:
+          type: string
+          enum:
+            - SIGN_IN
+            - SIGN_UP
+            - RESET_PASSWORD
+            - OPEN_SESSION
+            - UNLOCK_SESSION
+            - ADD_PAYMENT_METHOD
+            - HIGH_RISK_TRANSACTION
+          description: Action for which OTP verification is required.
+
+    ValidateOtpResponseDTO:
+      type: object
+      properties:
+        sessionToken:
+          type: string
+          description: Session token or other relevant data (optional).
